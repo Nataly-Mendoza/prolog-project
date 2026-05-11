@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks" # Forzamos a Railway a usar Nixpacks que sí soporta paquetes de sistema
+pkgs = ["python3", "swi-prolog"]
+
+[deploy]
+startCommand = "python prueba.py"
+healthCheckPath = "/"
+restartPolicy = "on-failure"

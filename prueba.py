@@ -64,6 +64,7 @@ def retroceder_estado():
     })
 
 if __name__ == '__main__':
-    # Railway nos da el puerto en una variable de entorno
+    # Railway asigna un puerto dinámico, si no existe usa el 5000
     port = int(os.environ.get("PORT", 5000))
+    # host='0.0.0.0' es vital para que sea público
     app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
