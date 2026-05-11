@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from pyswip import Prolog
+import os
+
 
 app = Flask(__name__)
 prolog = Prolog()
@@ -62,6 +64,6 @@ def retroceder_estado():
     })
 
 if __name__ == '__main__':
-    print("🚀 Iniciando servidor Flask en http://127.0.0.1:5000")
-    # use_reloader=False es CRÍTICO para que Prolog no truene en Windows
-    app.run(debug=True, use_reloader=False, port=5000)
+    # Railway nos da el puerto en una variable de entorno
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
