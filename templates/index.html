@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="zombies-theme">
+    <h1>Asistente de Easter Egg</h1>
+    
+<div id="perks-inventory">
+    <img src="{{ url_for('static', filename='images/juggernog.png') }}" id="juggernog" class="perk-icon locked" onclick="adquirirPerk('juggernog')">
+    <img src="{{ url_for('static', filename='images/speed_cola.png') }}" id="speed_cola" class="perk-icon locked" onclick="adquirirPerk('speed_cola')">
+    <img src="{{ url_for('static', filename='images/staminup.png') }}" id="staminup" class="perk-icon locked" onclick="adquirirPerk('staminup')">
+    <img src="{{ url_for('static', filename='images/quick_revive.png') }}" id="quick_revive" class="perk-icon locked" onclick="adquirirPerk('quick_revive')">
+    
+    <img src="{{ url_for('static', filename='images/electric_cherry.png') }}" id="electric_cherry" class="perk-icon locked" onclick="adquirirPerk('electric_cherry')">
+    <img src="{{ url_for('static', filename='images/widows_wine.png') }}" id="widows_wine" class="perk-icon locked" onclick="adquirirPerk('widows_wine')">
+</div>
+
+    <div id="objetivo-actual">
+        <h3>Siguiente paso:</h3>
+        <p id="instruccion">Esperando datos de Prolog...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+/* Fuente estilo militar/condensada */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+body {
+    background-color: #0a0a0a; /* Negro profundo */
+    color: #e0e0e0;
+    font-family: 'Bebas+Neue', sans-serif;
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+}
+
+h1 {
+    color: #ff4500; /* Naranja rojizo */
+    text-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
+    font-size: 3rem;
+}
+
+/* Contenedor de los pasos del Easter Egg */
+.paso-container {
+    background: rgba(20, 20, 20, 0.9);
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: inset 0 0 20px #000;
+}
+
+/* El botón del paso actual con brillo naranja */
+.btn-paso {
+    background: #1a1a1a;
+    color: #ff8c00;
+    border: 1px solid #ff4500;
+    padding: 15px 25px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de brillo cuando el paso está disponible (Prolog TRUE) */
+.btn-paso.disponible {
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.5), 
+                inset 0 0 10px rgba(255, 140, 0, 0.2);
+    animation: pulso-naranja 2s infinite;
+}
+
+.btn-paso:hover {
+    background: #ff4500;
+    color: #fff;
+    box-shadow: 0 0 30px #ff4500;
+}
+
+/* Iconos de Perks */
+.perk-icon {
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    filter: grayscale(100%) brightness(50%); /* Bloqueado por defecto */
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.perk-icon.active {
+    filter: grayscale(0%) brightness(100%); /* Activado por Prolog */
+    drop-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+}
+
+/* Animación de latido para el objetivo actual */
+@keyframes pulso-naranja {
+    0% { border-color: #ff4500; }
+    50% { border-color: #ffae00; box-shadow: 0 0 25px #ff8c00; }
+    100% { border-color: #ff4500; }
+}
