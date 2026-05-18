@@ -16,7 +16,7 @@ def consultar_lisp(perk):
     """Llama a CLISP para obtener informacion de un perk."""
     try:
         resultado = subprocess.run(
-            ['clisp', '-q', '-x', f'(progn (load "{LISP_FILE}") (perk-info "{perk}"))'],
+            ['clisp', '-q', '-x', f'(progn (load "{LISP_FILE}" :verbose nil :print nil) (perk-info "{perk}"))'],
             capture_output=True, text=True, timeout=10
         )
         salida = resultado.stdout.strip()
