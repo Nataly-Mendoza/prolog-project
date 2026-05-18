@@ -1,8 +1,8 @@
 [phases.setup]
-nixPkgs = ["python3", "swi-prolog", "clisp"]
+nixPkgs = ["swi-prolog", "clisp"]
 
 [phases.install]
-cmds = ["python3 -m pip install -r requirements.txt"]
+cmds = ["pip install -r requirements.txt"]
 
 [start]
 cmd = "python prueba.py"
