@@ -1,5 +1,8 @@
 [phases.setup]
 nixPkgs = ["swi-prolog", "clisp"]
 
+[phases.install]
+cmds = ["python3 -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt"]
+
 [start]
-cmd = "python prueba.py"
+cmd = ". /opt/venv/bin/activate && python prueba.py"
