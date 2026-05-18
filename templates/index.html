@@ -1,24 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <title>Asistente de Easter Egg</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="zombies-theme">
     <h1>Asistente de Easter Egg</h1>
-    
-<div id="perks-inventory">
-    <img src="{{ url_for('static', filename='images/juggernog.png') }}" id="juggernog" class="perk-icon locked" onclick="adquirirPerk('juggernog')">
-    <img src="{{ url_for('static', filename='images/speed_cola.png') }}" id="speed_cola" class="perk-icon locked" onclick="adquirirPerk('speed_cola')">
-    <img src="{{ url_for('static', filename='images/staminup.png') }}" id="staminup" class="perk-icon locked" onclick="adquirirPerk('staminup')">
-    <img src="{{ url_for('static', filename='images/quick_revive.png') }}" id="quick_revive" class="perk-icon locked" onclick="adquirirPerk('quick_revive')">
-    
-    <img src="{{ url_for('static', filename='images/electric_cherry.png') }}" id="electric_cherry" class="perk-icon locked" onclick="adquirirPerk('electric_cherry')">
-    <img src="{{ url_for('static', filename='images/widows_wine.png') }}" id="widows_wine" class="perk-icon locked" onclick="adquirirPerk('widows_wine')">
-</div>
+
+    <div id="perks-inventory">
+        <img src="{{ url_for('static', filename='images/juggernog.png') }}"
+             id="juggernog" class="perk-icon locked"
+             onclick="adquirirPerk('juggernog')"
+             onmouseenter="mostrarInfoPerk('juggernog')"
+             onmouseleave="ocultarInfoPerk()">
+        <img src="{{ url_for('static', filename='images/speed_cola.png') }}"
+             id="speed_cola" class="perk-icon locked"
+             onclick="adquirirPerk('speed_cola')"
+             onmouseenter="mostrarInfoPerk('speed_cola')"
+             onmouseleave="ocultarInfoPerk()">
+        <img src="{{ url_for('static', filename='images/staminup.png') }}"
+             id="staminup" class="perk-icon locked"
+             onclick="adquirirPerk('staminup')"
+             onmouseenter="mostrarInfoPerk('staminup')"
+             onmouseleave="ocultarInfoPerk()">
+        <img src="{{ url_for('static', filename='images/quick_revive.png') }}"
+             id="quick_revive" class="perk-icon locked"
+             onclick="adquirirPerk('quick_revive')"
+             onmouseenter="mostrarInfoPerk('quick_revive')"
+             onmouseleave="ocultarInfoPerk()">
+        <img src="{{ url_for('static', filename='images/electric_cherry.png') }}"
+             id="electric_cherry" class="perk-icon locked"
+             onclick="adquirirPerk('electric_cherry')"
+             onmouseenter="mostrarInfoPerk('electric_cherry')"
+             onmouseleave="ocultarInfoPerk()">
+        <img src="{{ url_for('static', filename='images/widows_wine.png') }}"
+             id="widows_wine" class="perk-icon locked"
+             onclick="adquirirPerk('widows_wine')"
+             onmouseenter="mostrarInfoPerk('widows_wine')"
+             onmouseleave="ocultarInfoPerk()">
+    </div>
+
+    <!-- Panel de info generado por CLISP -->
+    <div id="perk-info-panel" class="perk-info-oculto">
+        <div class="perk-info-header">
+            <span id="perk-info-nombre">-</span>
+            <span class="perk-info-badge">CLISP</span>
+        </div>
+        <div class="perk-info-contenido">
+            <p>Costo: <span id="perk-info-costo">-</span> pts</p>
+            <p>Efecto: <span id="perk-info-efecto">-</span></p>
+            <p>Consejo: <span id="perk-info-consejo">-</span></p>
+        </div>
+    </div>
 
     <div id="objetivo-actual">
-        <h3>Siguiente paso:</h3>
-        <p id="instruccion">Esperando datos de Prolog...</p>
+        <h3>Siguiente paso: <span class="fuente-badge">Prolog</span></h3>
+        <p id="instruccion">Cargando...</p>
     </div>
 
     <script src="{{ url_for('static', filename='js/game.js') }}"></script>

@@ -1,66 +1,68 @@
-// Función para enviar los clics de los Perks a Python/Prolog
+var NOMBRES_PERK = {
+    'juggernog': 'Juggernog',
+    'speed_cola': 'Speed Cola',
+    'staminup': 'Stamin-Up',
+    'quick_revive': 'Quick Revive',
+    'electric_cherry': 'Electric Cherry',
+    'widows_wine': "Widow's Wine"
+};
+
 function adquirirPerk(item) {
-    const perkElement = document.getElementById(item);
-    
-    // SI EL PERK YA ESTÁ ACTIVO: Vamos a retroceder (quitar el hecho)
+    var perkElement = document.getElementById(item);
+
     if (perkElement.classList.contains('active')) {
-        console.log("Retrocediendo estado para:", item);
-        
         fetch('/retroceder_estado', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ item: item }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item: item })
         })
-        .then(response => response.json())
-        .then(data => {
-            // Actualizamos la instrucción con el paso anterior
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
             document.getElementById('instruccion').innerText = data.siguiente_paso;
-            
-            // Regresamos el icono a estado bloqueado (gris)
             perkElement.classList.remove('active');
             perkElement.classList.add('locked');
         })
-        .catch(error => console.error('Error al retroceder:', error));
-    } 
-    
-    // SI EL PERK ESTÁ BLOQUEADO: Avanzamos (agregar el hecho)
-    else {
-        console.log("Avanzando estado para:", item);
-        
+        .catch(function(err) { console.error('Error al retroceder:', err); });
+    } else {
         fetch('/actualizar_estado', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ item: item }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item: item })
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
             document.getElementById('instruccion').innerText = data.siguiente_paso;
-            
-            // Iluminamos el icono
             perkElement.classList.remove('locked');
             perkElement.classList.add('active');
         })
-        .catch(error => console.error('Error al avanzar:', error));
+        .catch(function(err) { console.error('Error al avanzar:', err); });
     }
 }
 
-// Cargar el estado inicial al abrir la página
-window.onload = () => {
-    fetch('/actualizar_estado', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: 'inicio_partida' }) 
-    })
-    .then(res => response => response.json())
-    .then(data => {
-        // Aseguramos que el texto inicial sea el correcto
-        if(data.siguiente_paso) {
-            document.getElementById('instruccion').innerText = data.siguiente_paso;
-        }
-    })
-    .catch(err => console.log("Iniciando partida..."));
+function mostrarInfoPerk(item) {
+    fetch('/info_perk?perk=' + item)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            document.getElementById('perk-info-nombre').innerText = NOMBRES_PERK[item] || item;
+            document.getElementById('perk-info-costo').innerText = data.costo;
+            document.getElementById('perk-info-efecto').innerText = data.efecto;
+            document.getElementById('perk-info-consejo').innerText = data.consejo;
+            document.getElementById('perk-info-panel').classList.remove('perk-info-oculto');
+        })
+        .catch(function(err) { console.log('Error al obtener info:', err); });
+}
+
+function ocultarInfoPerk() {
+    document.getElementById('perk-info-panel').classList.add('perk-info-oculto');
+}
+
+window.onload = function() {
+    fetch('/estado_inicial')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.siguiente_paso) {
+                document.getElementById('instruccion').innerText = data.siguiente_paso;
+            }
+        })
+        .catch(function(err) { console.log('Error al iniciar:', err); });
 };

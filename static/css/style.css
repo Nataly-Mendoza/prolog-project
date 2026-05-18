@@ -1,10 +1,9 @@
-/* Fuente estilo militar/condensada */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 body {
-    background-color: #0a0a0a; /* Negro profundo */
+    background-color: #0a0a0a;
     color: #e0e0e0;
-    font-family: 'Bebas+Neue', sans-serif;
+    font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 2px;
     display: flex;
     flex-direction: column;
@@ -13,50 +12,9 @@ body {
 }
 
 h1 {
-    color: #ff4500; /* Naranja rojizo */
+    color: #ff4500;
     text-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
     font-size: 3rem;
-}
-
-/* Contenedor de los pasos del Easter Egg */
-.paso-container {
-    background: rgba(20, 20, 20, 0.9);
-    border: 2px solid #333;
-    border-radius: 5px;
-    padding: 20px;
-    width: 80%;
-    max-width: 600px;
-    box-shadow: inset 0 0 20px #000;
-}
-
-/* El botón del paso actual con brillo naranja */
-.btn-paso {
-    background: #1a1a1a;
-    color: #ff8c00;
-    border: 1px solid #ff4500;
-    padding: 15px 25px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Efecto de brillo cuando el paso está disponible (Prolog TRUE) */
-.btn-paso.disponible {
-    box-shadow: 0 0 15px rgba(255, 140, 0, 0.5), 
-                inset 0 0 10px rgba(255, 140, 0, 0.2);
-    animation: pulso-naranja 2s infinite;
-}
-
-.btn-paso:hover {
-    background: #ff4500;
-    color: #fff;
-    box-shadow: 0 0 30px #ff4500;
 }
 
 /* Iconos de Perks */
@@ -64,20 +22,107 @@ h1 {
     width: 80px;
     height: 80px;
     margin: 10px;
-    filter: grayscale(100%) brightness(50%); /* Bloqueado por defecto */
+    filter: grayscale(100%) brightness(50%);
     transition: all 0.5s ease;
     cursor: pointer;
 }
 
 .perk-icon.active {
-    filter: grayscale(0%) brightness(100%); /* Activado por Prolog */
-    drop-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    filter: grayscale(0%) brightness(100%);
     transform: scale(1.1);
+    filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.8));
 }
 
-/* Animación de latido para el objetivo actual */
+/* Panel de informacion de perks (datos desde CLISP) */
+#perk-info-panel {
+    background: rgba(10, 10, 30, 0.95);
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    padding: 15px 20px;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 10px;
+    transition: opacity 0.2s ease;
+}
+
+.perk-info-oculto {
+    display: none;
+}
+
+.perk-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+#perk-info-nombre {
+    color: #ff8c00;
+    font-size: 1.4rem;
+}
+
+.perk-info-badge {
+    background: #0a200a;
+    color: #4caf50;
+    border: 1px solid #4caf50;
+    padding: 2px 8px;
+    font-size: 0.65rem;
+    border-radius: 3px;
+    letter-spacing: 3px;
+}
+
+.perk-info-contenido p {
+    margin: 6px 0;
+    font-size: 0.85rem;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+.perk-info-contenido span {
+    color: #d0d0d0;
+}
+
+/* Seccion del objetivo actual (datos desde Prolog) */
+#objetivo-actual {
+    background: rgba(20, 20, 20, 0.9);
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 15px;
+    box-shadow: inset 0 0 20px #000;
+    animation: pulso-naranja 2s infinite;
+}
+
+#objetivo-actual h3 {
+    margin: 0 0 10px 0;
+    color: #ff8c00;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fuente-badge {
+    background: #200a0a;
+    color: #ff4500;
+    border: 1px solid #ff4500;
+    padding: 2px 8px;
+    font-size: 0.65rem;
+    border-radius: 3px;
+    letter-spacing: 3px;
+}
+
+#instruccion {
+    margin: 0;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
 @keyframes pulso-naranja {
-    0% { border-color: #ff4500; }
-    50% { border-color: #ffae00; box-shadow: 0 0 25px #ff8c00; }
+    0%   { border-color: #ff4500; }
+    50%  { border-color: #ffae00; box-shadow: 0 0 25px rgba(255, 140, 0, 0.3); }
     100% { border-color: #ff4500; }
 }
