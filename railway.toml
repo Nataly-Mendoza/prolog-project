@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-pkgs = ["swi-prolog", "clisp"]
+pkgs = ["python311", "python311Packages.pip", "swi-prolog", "clisp"]
 
 [deploy]
 startCommand = "python prueba.py"

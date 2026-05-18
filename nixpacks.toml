@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["swi-prolog", "clisp"]
+nixPkgs = ["python311", "python311Packages.pip", "swi-prolog", "clisp"]
 
 [phases.install]
 cmds = ["python3 -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt"]
