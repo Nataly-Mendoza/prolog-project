@@ -12,6 +12,14 @@ def index():
     # Carga la página principal (HTML)
     return render_template('index.html')
 
+@app.route('/estado_inicial')
+def estado_inicial():
+    # Limpia todos los hechos completado/1 para reiniciar el estado
+    list(prolog.query("retractall(completado(_))"))
+    guia = list(prolog.query("que_hacer(instruccion(X))"))
+    mensaje = guia[0]['X'] if guia else "Paso 1: Activa la corriente eléctrica en el búnker."
+    return jsonify({"siguiente_paso": mensaje})
+
 @app.route('/actualizar_estado', methods=['POST'])
 def actualizar_estado():
     data = request.json
