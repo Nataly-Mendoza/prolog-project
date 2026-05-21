@@ -2,56 +2,31 @@ from flask import Flask, render_template, request, jsonify
 import subprocess
 import os
 import re
-import time
-import socket
-import atexit
 
 app = Flask(__name__)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
 LISP_BRIDGE = os.path.join(BASE_DIR, 'logic', 'clisp_bridge.lisp').replace('\\', '/')
-PROLOG_SERVER = os.path.join(BASE_DIR, 'logic', 'prolog_server.pl')
+ESTADO_FILE = os.path.join(BASE_DIR, 'logic', 'estado.pl')
 
+# Crear estado.pl vacio si no existe
+if not os.path.exists(ESTADO_FILE):
+    with open(ESTADO_FILE, 'w') as f:
+        f.write(':- dynamic completado/1.\n')
 
-# --- Arrancar el servidor Prolog en segundo plano ---
-
-prolog_proceso = subprocess.Popen(
-    ['swipl', PROLOG_SERVER],
-    stdout=subprocess.DEVNULL,
-    stderr=subprocess.DEVNULL
-)
-
-@atexit.register
-def detener_prolog():
-    prolog_proceso.terminate()
-
-def esperar_prolog(reintentos=15, espera=0.4):
-    for _ in range(reintentos):
-        try:
-            with socket.create_connection(("localhost", 8000), timeout=1):
-                return True
-        except OSError:
-            time.sleep(espera)
-    return False
-
-esperar_prolog()
-
-
-# --- Llamar a CLISP (que a su vez consulta Prolog) ---
 
 def llamar_clisp(expr):
-    full = f'(progn (load "{LISP_BRIDGE}" :verbose nil :print nil) {expr})'
+    """Llama a CLISP: carga clisp_bridge.lisp y evalua expr."""
+    full = f'(progn (load "{LISP_BRIDGE}" :verbose nil :print nil) {expr} (values))'
     try:
         resultado = subprocess.run(
             ['clisp', '-q', '-x', full],
-            capture_output=True, text=True, timeout=10
+            capture_output=True, text=True, timeout=15
         )
         return resultado.stdout.strip()
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return ""
 
-
-# --- Rutas Flask ---
 
 @app.route('/')
 def index():
@@ -60,7 +35,8 @@ def index():
 
 @app.route('/estado_inicial')
 def estado_inicial():
-    paso = llamar_clisp('(cmd-paso-actual)')
+    # Reinicia el estado y devuelve el primer paso
+    paso = llamar_clisp('(cmd-reset)')
     return jsonify({"siguiente_paso": paso or "Paso 1: Activa la corriente electrica."})
 
 
@@ -68,14 +44,14 @@ def estado_inicial():
 def actualizar_estado():
     item = request.json.get('item', '')
     paso = llamar_clisp(f'(cmd-completar "{item}")')
-    return jsonify({"status": "success", "siguiente_paso": paso or "Easter Egg completado!"})
+    return jsonify({"status": "success", "siguiente_paso": paso or "Error al consultar Prolog."})
 
 
 @app.route('/retroceder_estado', methods=['POST'])
 def retroceder_estado():
     item = request.json.get('item', '')
     paso = llamar_clisp(f'(cmd-retroceder "{item}")')
-    return jsonify({"status": "success", "siguiente_paso": paso or "Regresando al inicio..."})
+    return jsonify({"status": "success", "siguiente_paso": paso or "Error al consultar Prolog."})
 
 
 @app.route('/info_perk')
